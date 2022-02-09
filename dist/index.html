@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://kit.fontawesome.com/cd96291dab.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
+  </head>
+  <body>
+<header>
+  <button class="navbar-btn"><i class="fas fa-bars"></i></button>
+  <h1>To-Do App</h1>
+</header>
+<main id="main">
+<aside class="aside">
+<div class="inbox project-list"><i class="fas fa-inbox"></i>Inbox</div>
+<div class="today project-list"><i class="fas fa-calendar-day"></i>Today</div>
+<div class="week project-list"><i class="fas fa-calendar-week"></i>Week</div>
+<h1 id="proText">Projects</h1>
+<div class="project">
+  
+</div>
+<div class="addProject">
+  <button class="addProjectBtn" id="addProjectBtn"><i class="fas fa-plus"></i></button>
+<div class="project-pop">
+  <input type="text" class="project-input"></input>
+  <div class="buttons">
+    <button class="project-add">Add</button>
+    <button class="project-close">Close</button>
+  </div>
+</div>
+</div>
+
+</aside>
+<div class="content">
+<button class="add-task">ADD TASK</button>
+
+<form class="form-active" id="form">
+<label>Name</label>
+<input type="text" id="nameInp" required>
+<label>DueDate</label>
+<input type="date" id="dateInp" required>
+<label>Description</label>
+<input type="text" id="descInp" required>
+<label>Priority</label>
+<div class="radio">
+<input label='Low' type="radio" id="low2" name="radio" checked>
+<input label='Medium' type="radio" id="medium2" name="radio">
+<input label='Hard' type="radio" id="hard2" name="radio">
+</div>
+
+<button class="submit">Submit</button>
+</form>
+  <div class="task-contanier">
+    
+  </div>
+</div>
+</main>
+<footer>
+  <h1>©Vurmaz</h1>
+</footer>
+<div class="overlay" id="overlay"></div>
+
+<template id="temp">
+<form action="" class="edit-form-active" id="edit-form">
+  <div class="div1">
+    <label for="name" class='nameLabel2'>Title:</label>
+    <input type="text" class="nameInp2" required>
+  </div>
+  <div class="div2">
+    <label for="description" class="descLabel2">Description:</label>
+    <input type="text" class="descInp2" required>
+  </div>
+  <div class="date-div" id="date-div">
+    <label for="dueDate" class="dueDateLabel2">DueDate:</label>
+    <input type="date" class="dueDateInp2" required>    
+  </div>
+  <div id="radioDiv">
+    <label for="radio2" id="radioLabel">Priority</label>
+    <div class="radio" id="radio2">
+      <input class="radioBtn" label='Low' type="radio" id="low" name="radio">
+      <input class="radioBtn" label='Medium' type="radio" id="medium" name="radio">
+      <input class="radioBtn" label='Hard' type="radio" id="hard" name="radio">
+      <button class="submit-form-btn">Apply Changes</button>
+      </div>
+      
+</form>
+</template>
+    <script src="main.js"></script>
+  </body>
+</html>
