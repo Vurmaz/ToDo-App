@@ -110,6 +110,7 @@ input{
     cursor: pointer;
     border: none;
     color: white;
+    transition: background-color 300ms ease-in-out;
 }
 .buttons button:first-child{
     background-color:var(--green);
@@ -117,11 +118,12 @@ input{
 .buttons button:last-child{
     background-color: var(--red);
 }
-.buttons button:hover{
-    transform: scale(1.1);
-    
+.buttons button:first-child:hover{
+    background-color:hsl(94, 30%, 43%);
 }
-
+.buttons button:last-child:hover{
+    background-color: hsl(359, 59%, 47%);;
+}
 .project-pop-active input{
     width: 36vh;
 }
