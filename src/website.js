@@ -29,27 +29,27 @@ function createProject() {
 }
 function clickProjectBtn(pop){
     const addProcejtBtn = document.querySelector('#addProjectBtn')
-    addProcejtBtn.addEventListener('click',()=>{
-        showPop(pop,'project-pop','project-pop-active')
-        showPop(addProcejtBtn,'addProjectBtn','addProjectBtn-active')
+    addProcejtBtn.addEventListener('click',() => {
+        PopHandler(pop,'project-pop','project-pop-active')
+        PopHandler(addProcejtBtn,'addProjectBtn','addProjectBtn-active')
     })
 }
 function addProject(btn,inp) {
     const projectAddBtn = document.querySelector('.project-add')
     const addProjectBtn = document.querySelector('#addProjectBtn')
-    projectAddBtn.addEventListener('click',()=>{
+    projectAddBtn.addEventListener('click',() => {
         if(inp.value < 1 )return 
-        showPop(btn,'project-pop-active','project-pop')
-        showPop(addProjectBtn,'addProjectBtn-active','addProjectBtn')
-        array.push(new project(inp.value,Date.now().toString(),[]))
+        PopHandler(btn,'project-pop-active','project-pop')
+        PopHandler(addProjectBtn,'addProjectBtn-active','addProjectBtn')
+        array.push(new project(inp.value, Date.now().toString(), []))
         saveAndRender()
-        inp.value= ''
+        inp.value = ''
     })
 }
-function renderProject() {
+function renderProjects() {
     const projectHolder = document.querySelector('.project')
     clearElement(projectHolder)
-    array.forEach(list => {
+    array.forEach((list) => {
         const projectName = document.createElement('div')
         projectName.classList.add('project-list')
         const text = document.createElement('p')
@@ -66,7 +66,6 @@ function renderProject() {
         projectHolder.appendChild(projectName)
     });
 }
-
 function deleteProjectBtn() {
     const deleteBtn = document.createElement('button')
     deleteProjectFromList(deleteBtn)
@@ -78,8 +77,8 @@ function deleteProjectBtn() {
     return deleteBtn
 } 
 function deleteProjectFromList(btn) {
-    btn.addEventListener('click',()=>{
-        array = array.filter(item=>item.id !==selectedId)
+    btn.addEventListener('click',() => {
+        array = array.filter((item) => item.id !==selectedId)
         selectedId = null
         saveAndRender()      
     })
@@ -90,14 +89,14 @@ function save(){
 }
 function saveAndRender() {
     save()
-    renderProject()
+    renderProjects()
     createTask()
 }
 function selectProject() {
     const project = document.querySelector('.project')
-    project.addEventListener('click',(item)=>{
+    project.addEventListener('click',(item) => {
         showBtn()
-        if(array.length==0){hideBtn()}
+        if(array.length == 0){ hideBtn() }
         if(item.target.classList.contains('project-list')){
             selectedId = item.target.dataset.listId
             saveAndRender()
@@ -107,9 +106,9 @@ function selectProject() {
 function closeProjectBtn(btn,inp) {
     const close = document.querySelector('.project-close')
     const addProcejtBtn = document.querySelector('#addProjectBtn')
-    close.addEventListener('click',()=>{
-        showPop(btn,'project-pop-active','project-pop')
-        showPop(addProcejtBtn,'addProjectBtn-active','addProjectBtn')
+    close.addEventListener('click',() => {
+        PopHandler(btn,'project-pop-active','project-pop')
+        PopHandler(addProcejtBtn,'addProjectBtn-active','addProjectBtn')
         inp.value = ''
         
     })
@@ -117,7 +116,7 @@ function closeProjectBtn(btn,inp) {
 function renderTasks() {
     const addTaskBtn = document.querySelector('.add-task')
     cleanTasks()
-    addTaskBtn.addEventListener('click',()=>{
+    addTaskBtn.addEventListener('click',() => {
         addTasktoArray()
     })
     submitForm()
@@ -125,27 +124,23 @@ function renderTasks() {
 function addTasktoArray() {
     const overlay = document.querySelector('#overlay')
     showForm()
-    showPop(overlay,'overlay','overlay-active')
+    PopHandler(overlay,'overlay','overlay-active')
 }
-function submitForm() {
-    const nameInp = document.querySelector('#nameInp')
-    const dateInp = document.querySelector('#dateInp')
-    const descInp = document.querySelector('#descInp')
+function submitForm() { 
     const overlay = document.querySelector('#overlay')
     const form = document.querySelector('#form')
-    const addProcejtBtn = document.querySelector('#addProjectBtn')
-    form.addEventListener('submit',(event)=>{
+    form.addEventListener('submit',(event) => {
         event.preventDefault()
-        showPop(overlay,'overlay-active','overlay')
-        showPop(form,'form','form-active')
+        PopHandler(overlay,'overlay-active','overlay')
+        PopHandler(form,'form','form-active')
         createTaskListElement(determineColor())
     })
 }
 
 function createTaskListElement(color) {
-array.forEach(item=>{ 
-        if(item.id==selectedId){
-            item.task.push(new task(Date.now().toString(),nameInp.value,dateInp.value,descInp.value,color))
+    array.forEach((item) => { 
+        if(item.id == selectedId){
+            item.task.push(new task(Date.now().toString(), nameInp.value, dateInp.value, descInp.value, color))
             saveAndRender() 
         }
             createTask()
@@ -153,8 +148,8 @@ array.forEach(item=>{
 }
 function createTask() {
     cleanTasks()
-    array.forEach(element=>{
-       element.task.forEach(item=>{
+    array.forEach((element)=>{
+       element.task.forEach((item) => {
         if(element.id === selectedId){
             renderAllTask(item)
    }
@@ -162,13 +157,13 @@ function createTask() {
  
    })
 }
-function renderAllTask(item){
+function renderAllTask(item) {
     const taskHolder = document.querySelector('.task-contanier')
     const taskItem = document.createElement('div')
     taskItem.dataset.taskId = item.id
     taskItem.classList.add('task-item')
     const text = document.createElement('h3')
-    text.innerText=item.name
+    text.innerText = item.name
     
     changeColor(taskItem)
     
@@ -186,9 +181,9 @@ function renderAllTask(item){
     taskItem.appendChild(deleteBtn)
     taskHolder.appendChild(taskItem)
 }
-function renderToday (){
+function renderToday() {
     const today = document.querySelector('.today')
-    today.addEventListener('click',()=>{
+    today.addEventListener('click', () => {
         switchActive(today)
         hideBtn()
         cleanTasks()
@@ -196,8 +191,8 @@ function renderToday (){
     })
 }
 function checkToday() {
-    array.forEach(element=>{
-        element.task.forEach(item=>{
+    array.forEach((element) => {
+        element.task.forEach((item) => {
            const date = new Date(item.dueDate)
             if(isToday(date)){
             renderAllTask(item)
@@ -205,40 +200,40 @@ function checkToday() {
         })
     })
 }
-function renderInbox(){
+function renderInbox() {
     const inbox = document.querySelector('.inbox')
     inbox.addEventListener('click',() => {
         hideBtn()
         switchActive(inbox)
         cleanTasks()
-        array.forEach(element => {
-            element.task.forEach(item => {
+        array.forEach((element) => {
+            element.task.forEach((item) => {
             renderAllTask(item)
         })})
     })
 }
 function renderWeek() {
     const week = document.querySelector('.week')
-    week.addEventListener('click',()=>{
+    week.addEventListener('click', () => {
     hideBtn()
     switchActive(week)
     cleanTasks()
-    array.forEach(element => {
-        element.task.forEach(item => {
+    array.forEach((element) => {
+        element.task.forEach((item) => {
         const date = new Date(item.dueDate)
-        if(isThisWeek(date)){
+        if(isThisWeek(date)) {
             renderAllTask(item)
         }
     })
 })
 })
 }
-function switchActive(item){
+function switchActive(item) {
     const project = document.querySelectorAll('.project-list')
     project.forEach(item=>item.classList.remove('active'))
     item.classList.add('active')
 }
-function showPop(item,deActive,active){
+function PopHandler(item,deActive,active) {
     item.classList.remove(deActive)
     item.classList.add(active)
 }
@@ -253,35 +248,34 @@ function clearElement(elem) {
         elem.removeChild(elem.firstChild)
     }
 }
-function showForm(){
+function showForm() {
     const form = document.querySelector('.form-active')
-    showPop(form,'form-active','form')
+    PopHandler(form,'form-active','form')
     if(form.classList.contains('form'))return
-    
 }
 function determineColor() {
     const low = document.querySelector('#low2')
     const medium = document.querySelector('#medium2')
     const hard = document.querySelector('#hard2')
-    if(low.checked){return 'low'}
-    else if(medium.checked){return 'medium'}
-    else if(hard.checked){return 'hard'}
+    if(low.checked){ return 'low' }
+    else if(medium.checked){ return 'medium' }
+    else if(hard.checked){ return 'hard' }
 }
 function changeColor(taskItem) {
-    array.forEach(element=>{
-    element.task.forEach(item=>{
+    array.forEach((element) => {
+    element.task.forEach((item) => {
         if(item.id == taskItem.dataset.taskId){
-            if(item.priority === 'low'){taskItem.style.backgroundColor = 'var(--yellow)'}
-            else if(item.priority === 'medium'){taskItem.style.backgroundColor = 'var(--orange)'}
-            else if(item.priority === 'hard'){taskItem.style.backgroundColor = 'var(--red)'}             
+            if(item.priority === 'low'){ taskItem.style.backgroundColor = 'var(--yellow)' }
+            else if(item.priority === 'medium'){ taskItem.style.backgroundColor = 'var(--orange)' }
+            else if(item.priority === 'hard'){ taskItem.style.backgroundColor = 'var(--red)' }             
         }
         }) 
     })     
 }
 function deleteTask(btn) {
-    btn.addEventListener('click',()=>{
-       array.forEach(element=>{
-           element.task.forEach(item=>{
+    btn.addEventListener('click', () => {
+       array.forEach((element)=>{
+           element.task.forEach((item)=>{
                if(item.id === btn.parentNode.dataset.taskId){
                element.task = element.task.filter(list=>list.id !== btn.parentNode.dataset.taskId)
                saveAndRender()
@@ -291,7 +285,7 @@ function deleteTask(btn) {
     })
 }
 function clickEditBtn(btn) {
-    btn.addEventListener('click',(event)=>{
+    btn.addEventListener('click', () => {
     renderEdit(btn)
     })
 }
@@ -312,11 +306,11 @@ function renderEdit (btn) {
     showEditPop(formEdit)
     main.appendChild(formEdit)
 }
-function submitEditForm(btn,form,name,desc,date,) {
+function submitEditForm(btn,form,name,desc,date) {
     const main = document.querySelector('#main')
-    array.forEach(element=>element.task.forEach(item=>{
+    array.forEach((element) => element.task.forEach((item) => {
         if(item.id === btn.parentNode.dataset.taskId){
-        form.addEventListener('submit',(event)=>{
+        form.addEventListener('submit', (event) => {
         event.preventDefault()
         hideEditPop(form)
         changeTask(item,name,desc,date)
@@ -334,17 +328,17 @@ function assingValues(btn,name,desc,dueDate) {
         }   
     }))
 }
-function detectPriority(btn,low,medium,hard){
-    array.forEach(element=>element.task.forEach(item => {
+function detectPriority(btn,low,medium,hard) {
+    array.forEach((element) => element.task.forEach((item) => {
         if(item.id === btn.parentNode.dataset.taskId){  
              if(item.priority == 'low'){
-                low.checked=true
+                low.checked = true
             }
             else if(item.priority == 'medium'){
-                medium.checked=true
+                medium.checked = true
             }
             else if(item.priority == 'hard'){
-                hard.checked=true
+                hard.checked = true
             } 
         }
     }))
@@ -361,13 +355,13 @@ function changeTask(item,name,desc,date) {
 }
 function showEditPop(formEdit) {
     const overlay = document.querySelector('#overlay')
-    showPop(formEdit,'edit-form-active','edit-form')
-    showPop(overlay,'overlay','overlay-active')
+    PopHandler(formEdit,'edit-form-active','edit-form')
+    PopHandler(overlay,'overlay','overlay-active')
 }
-function hideEditPop(form){
+function hideEditPop(form) {
     const overlay = document.querySelector('#overlay')
-    showPop(overlay,'overlay-active','overlay')
-    showPop(form,'edit-form','edit-form-edit')
+    PopHandler(overlay,'overlay-active','overlay')
+    PopHandler(form,'edit-form','edit-form-edit')
 }
 function hideBtn() {
     const btn = document.querySelector('.add-task')
