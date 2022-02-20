@@ -1,8 +1,9 @@
 import { format, isThisWeek } from 'date-fns'
 import { isToday } from 'date-fns'
-import project from './project.js'
-import task from './task.js'
-import showAside from './ui.js'
+import project from './project'
+import task from './task'
+import showAside from './sidebar'
+
 
 const localStorageList = (function (){
    const LSL = 'project.list'
@@ -12,14 +13,15 @@ let array = (function (){
     let createArray = JSON.parse(localStorage.getItem(localStorageList)) || []
     return createArray
 })()
-const localStorageListId = (function (){
+const localStorageListId = (function () {
     const LSLI = 'project.list.id'
     return LSLI
 })()
-let selectedId = (function (){
+let selectedId = (function () {
     const selected = localStorage.getItem(localStorageListId)
     return selected
 })()
+
 function createProject() {
     const projectPop = document.querySelector('.project-pop')
     const projectInp = document.querySelector('.project-input')
@@ -49,6 +51,7 @@ function addProject(btn,inp) {
 function renderProjects() {
     const projectHolder = document.querySelector('.project')
     clearElement(projectHolder)
+    checkBtn()
     array.forEach((list) => {
         const projectName = document.createElement('div')
         projectName.classList.add('project-list')
@@ -80,7 +83,8 @@ function deleteProjectFromList(btn) {
     btn.addEventListener('click',() => {
         array = array.filter((item) => item.id !==selectedId)
         selectedId = null
-        saveAndRender()      
+        saveAndRender() 
+        checkBtn()     
     })
 }
 function save(){
@@ -95,10 +99,12 @@ function saveAndRender() {
 function selectProject() {
     const project = document.querySelector('.project')
     project.addEventListener('click',(item) => {
-        showBtn()
+        
         if(array.length == 0){ hideBtn() }
-        if(item.target.classList.contains('project-list')){
+        if(item.target.classList.contains('project-list')) {
             selectedId = item.target.dataset.listId
+            
+            checkBtn()
             saveAndRender()
         }
     })
@@ -148,7 +154,7 @@ function createTaskListElement(color) {
 }
 function createTask() {
     cleanTasks()
-    array.forEach((element)=>{
+    array.forEach((element) => {
        element.task.forEach((item) => {
         if(element.id === selectedId){
             renderAllTask(item)
@@ -157,9 +163,12 @@ function createTask() {
  
    })
 }
+
 function renderAllTask(item) {
     const taskHolder = document.querySelector('.task-contanier')
     const taskItem = document.createElement('div')
+    const div = document.createElement('div')
+    div.classList.add('wrapper')
     taskItem.dataset.taskId = item.id
     taskItem.classList.add('task-item')
     const text = document.createElement('h3')
@@ -176,9 +185,10 @@ function renderAllTask(item) {
     deleteTask(deleteBtn)
     
     taskItem.appendChild(text) 
-    taskItem.appendChild(dueDateText)
-    taskItem.appendChild(editBtn)
-    taskItem.appendChild(deleteBtn)
+    div.appendChild(dueDateText)
+    div.appendChild(editBtn)
+    div.appendChild(deleteBtn)
+    taskItem.appendChild(div)
     taskHolder.appendChild(taskItem)
 }
 function renderToday() {
@@ -230,9 +240,10 @@ function renderWeek() {
 }
 function switchActive(item) {
     const project = document.querySelectorAll('.project-list')
-    project.forEach(item=>item.classList.remove('active'))
+    project.forEach((item) => item.classList.remove('active'))
     item.classList.add('active')
 }
+
 function PopHandler(item,deActive,active) {
     item.classList.remove(deActive)
     item.classList.add(active)
@@ -277,7 +288,7 @@ function deleteTask(btn) {
        array.forEach((element)=>{
            element.task.forEach((item)=>{
                if(item.id === btn.parentNode.dataset.taskId){
-               element.task = element.task.filter(list=>list.id !== btn.parentNode.dataset.taskId)
+               element.task = element.task.filter((list) => list.id !== btn.parentNode.dataset.taskId)
                saveAndRender()
                }
            })
@@ -365,13 +376,22 @@ function hideEditPop(form) {
 }
 function hideBtn() {
     const btn = document.querySelector('.add-task')
-    btn.style.visibility = 'hidden'
-}
-function showBtn() {
-    const btn = document.querySelector('.add-task')
-    btn.style.visibility = ''    
+    btn.classList.remove('show-btn')
+    btn.classList.add('hide-btn')
 }
 
+function checkBtn () {
+    const btn = document.querySelector('.add-task') 
+    console.log(selectedId)
+    if(selectedId == 'null'){
+        btn.classList.remove('show-btn')
+        btn.classList.add('hide-btn')
+    } else{
+        btn.classList.remove('hide-btn')
+        btn.classList.add('show-btn')
+    }
+
+}
 function createIcon(item) {
     const icon = document.createElement('span')
     icon.classList.add('fas')
@@ -382,13 +402,16 @@ function cleanTasks(){
     const taskHolder = document.querySelector('.task-contanier')
     clearElement(taskHolder)
 }
+
 function renderPage(){
     createProject()
     window.addEventListener('load', () => {
     saveAndRender()
     renderTasks()
     createTask()
-  });
+    hideBtn()
+    checkBtn()
+  })
     selectProject()
     renderWeek()
     renderToday()
