@@ -41,15 +41,19 @@ picture {
 }
 header {
   width: 100%;
-  height: 7vh;
+  min-height: 3.7rem;
   background-color: var(--blue);
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+}
+header h1 {
+  text-align: center;
 }
 main {
   display: flex;
-  height: 100vh;
+  min-height: calc(100vh - 3.7rem - 2.5rem);
   background-color: aliceblue;
 }
 h1 {
@@ -58,11 +62,24 @@ h1 {
 footer {
   background-color: var(--blue);
   width: 100%;
-  min-height: 7vh;
+  min-height: 2.5rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   position: absolute;
+  gap: 1rem;
+}
+footer h2 {
+  color: white;
+}
+footer i {
+  font-size: 1.8rem;
+  color: white;
+  transition: color 700ms ease-in-out;
+}
+footer i:hover {
+  color: var(--green);
 }
 input {
   height: 2rem;
@@ -88,10 +105,7 @@ input {
   display: flex;
   flex-direction: column;
   overflow: auto;
-  max-height: 55vh;
-}
-.inbox {
-  margin-top: 1rem;
+  max-height: calc(85vh - 18vh - 43.2px - 6rem);
 }
 .project-pop {
   display: none;
@@ -99,7 +113,7 @@ input {
 .project-pop-active {
   display: flex;
   flex-direction: column;
-  margin-top: 2.8rem;
+  margin-top: 2.5rem;
   width: 100%;
 }
 .buttons {
@@ -138,7 +152,6 @@ input {
   cursor: pointer;
   font-size: 1rem;
   align-items: center;
-  margin-top: 0.5rem;
   transition: all 500ms ease-in-out;
 }
 #proText {
@@ -212,6 +225,10 @@ input {
 .addProjectBtn:hover {
   background-color: var(--green);
   border: 1px solid black;
+}
+.project-input {
+  width: 90%;
+  margin: 0 auto;
 }
 .form {
   top: 50%;
@@ -435,9 +452,7 @@ input {
   flex-direction: row;
   gap: 1rem;
 }
-.edit-form div:first-child {
-  gap: 3.75rem;
-}
+
 .edit-form input {
   border: none;
   outline: none;
@@ -508,9 +523,6 @@ header button {
   display: none;
   color: white;
 }
-header h1 {
-  margin-left: 54vw;
-}
 .show-btn {
   visibility: visible;
 }
@@ -518,6 +530,10 @@ header h1 {
   visibility: hidden;
 }
 @media screen and (max-width: 477.9px) {
+  header {
+    justify-content: start;
+    gap: 5rem;
+  }
   .aside {
     width: 0;
     position: relative;
@@ -530,9 +546,6 @@ header h1 {
     z-index: 2;
     height: 100%;
     animation: left-to-right 300ms ease-in-out;
-  }
-  header h1 {
-    margin: 0 auto;
   }
   .add-task {
     font-size: 1.5rem;
@@ -553,6 +566,44 @@ header h1 {
   }
   .hide-btn {
     visibility: hidden;
+  }
+  .edit-form {
+    width: 90%;
+    height: 55%;
+    justify-content: flex-start;
+  }
+  .edit-form div:first-child {
+    gap: 0;
+  }
+  #radioDiv {
+    gap: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  #radio2 {
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-height: 506px) {
+  .project {
+    max-height: calc(85vh - 18vh - 43.2px - 11rem);
+  }
+  .project-pop-active {
+    margin-top: 1.5rem;
+  }
+  .project-list {
+    height: 3vh;
+  }
+  .add-task {
+    font-size: 1.4rem;
+  }
+  .form {
+    row-gap: 0;
+  }
+}
+@media screen and (min-height: 506px) and (max-height: 600px) {
+  .project {
+    max-height: calc(85vh - 18vh - 43.2px - 9rem);
   }
 }
 @keyframes left-to-right {
