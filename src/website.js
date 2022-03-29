@@ -1,5 +1,4 @@
-import { format, isThisWeek } from 'date-fns'
-import { isToday } from 'date-fns'
+import { format, isThisWeek, isToday } from 'date-fns'
 import project from './project'
 import task from './task'
 import showAside from './sidebar'
@@ -283,24 +282,24 @@ function changeColor(taskItem) {
         }) 
     })     
 }
-function deleteTask(btn) {
-    btn.addEventListener('click', () => {
+function deleteTask(btn) {    
+    btn.addEventListener('click', (event) => {    
        array.forEach((element)=>{
-           element.task.forEach((item)=>{
-               if(item.id === btn.parentNode.dataset.taskId){
-               element.task = element.task.filter((list) => list.id !== btn.parentNode.dataset.taskId)
-               saveAndRender()
+           element.task.forEach((item)=>{            
+               if(item.id === event.target.parentNode.parentNode.dataset.taskId){ 
+                    element.task = element.task.filter((list) => list.id !== event.target.parentNode.parentNode.dataset.taskId)
+                    saveAndRender()
                }
            })
        })
     })
 }
 function clickEditBtn(btn) {
-    btn.addEventListener('click', () => {
-    renderEdit(btn)
+    btn.addEventListener('click', (event) => {
+        renderEdit(event)
     })
 }
-function renderEdit (btn) {
+function renderEdit (event) {
     const editTemp = document.querySelector('#temp')
     const main = document.querySelector('#main')
     const templateItem = document.importNode(editTemp.content,true)
@@ -311,16 +310,16 @@ function renderEdit (btn) {
     const low = templateItem.querySelector('#low')
     const medium = templateItem.querySelector('#medium')
     const hard = templateItem.querySelector('#hard')
-    detectPriority(btn,low,medium,hard)
-    assingValues(btn,nameInp2,descInp2,dueDateInp2)
-    submitEditForm(btn,formEdit,nameInp2,descInp2,dueDateInp2)
+    detectPriority(event,low,medium,hard)
+    assingValues(event,nameInp2,descInp2,dueDateInp2)
+    submitEditForm(event,formEdit,nameInp2,descInp2,dueDateInp2)
     showEditPop(formEdit)
     main.appendChild(formEdit)
 }
-function submitEditForm(btn,form,name,desc,date) {
+function submitEditForm(event,form,name,desc,date) {
     const main = document.querySelector('#main')
     array.forEach((element) => element.task.forEach((item) => {
-        if(item.id === btn.parentNode.dataset.taskId){
+        if(item.id === event.target.parentNode.parentNode.dataset.taskId){
         form.addEventListener('submit', (event) => {
         event.preventDefault()
         hideEditPop(form)
@@ -330,18 +329,18 @@ function submitEditForm(btn,form,name,desc,date) {
         }
     }))
 }
-function assingValues(btn,name,desc,dueDate) {
+function assingValues(event,name,desc,dueDate) {
     array.forEach(element=>element.task.forEach(item=>{
-        if(item.id === btn.parentNode.dataset.taskId){
+        if(item.id === event.target.parentNode.parentNode.dataset.taskId){
             name.value = item.name
             desc.value = item.description
             dueDate.value = item.dueDate
         }   
     }))
 }
-function detectPriority(btn,low,medium,hard) {
+function detectPriority(event,low,medium,hard) {
     array.forEach((element) => element.task.forEach((item) => {
-        if(item.id === btn.parentNode.dataset.taskId){  
+        if(item.id === event.target.parentNode.parentNode.dataset.taskId){  
              if(item.priority == 'low'){
                 low.checked = true
             }
@@ -355,6 +354,7 @@ function detectPriority(btn,low,medium,hard) {
     }))
 }
 function changeTask(item,name,desc,date) {
+    console.log(item,name,desc,date)
     item.name = name.value
     item.description = desc.value
     item.dueDate = date.value
@@ -379,10 +379,8 @@ function hideBtn() {
     btn.classList.remove('show-btn')
     btn.classList.add('hide-btn')
 }
-
 function checkBtn () {
     const btn = document.querySelector('.add-task') 
-    console.log(selectedId)
     if(selectedId == 'null'){
         btn.classList.remove('show-btn')
         btn.classList.add('hide-btn')
@@ -390,7 +388,6 @@ function checkBtn () {
         btn.classList.remove('hide-btn')
         btn.classList.add('show-btn')
     }
-
 }
 function createIcon(item) {
     const icon = document.createElement('span')
@@ -402,16 +399,15 @@ function cleanTasks(){
     const taskHolder = document.querySelector('.task-contanier')
     clearElement(taskHolder)
 }
-
 function renderPage(){
     createProject()
     window.addEventListener('load', () => {
-    saveAndRender()
-    renderTasks()
-    createTask()
-    hideBtn()
-    checkBtn()
-  })
+        saveAndRender()
+        renderTasks()
+        createTask()
+        hideBtn()
+        checkBtn()
+    })
     selectProject()
     renderWeek()
     renderToday()
